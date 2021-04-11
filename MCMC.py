@@ -4,7 +4,7 @@ import numpy as np
 import util
 
 
-def MCMC(T, samples, mean, cov, y, theta, A):
+def MCMC(T, samples, mean, cov, y, sigama1,sigama2, A):
     t = 0
     accept = 0
     while t < T:
@@ -12,7 +12,7 @@ def MCMC(T, samples, mean, cov, y, theta, A):
             print(t)
         t = t + 1
         theta_star = np.random.multivariate_normal(mean=mean.flatten(), cov=cov, size=(1)).T
-        alpha = min(1, np.exp(util.pyu(y, util.sigmoid(theta_star), theta, A) - util.pyu(y, util.sigmoid(mean), theta, A))[0][0])
+        alpha = min(1, np.exp(-(util.pyu(y, util.sigmoid(theta_star), A, sigama1, sigama2) - util.pyu(y, util.sigmoid(mean), A, sigama1, sigama2)))[0][0])
         u = random.uniform(0, 1)
         if u <= alpha:
             mean = theta_star
