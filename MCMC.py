@@ -16,15 +16,15 @@ def MCMC(T, samples, mean, cov, y, sigama1,sigama2, A):
         u = random.uniform(0, 1)
         if u <= alpha:
             mean = theta_star
-            samples[[t-1], :] = theta_star.flatten()
+            sigama_t=sigama_t+theta_star.flatten()
             accept += 1
         else:
-            samples[[t-1], :] = mean.flatten()
+            sigama_t=sigama_t+mean.flatten()
     print(f'accept rate: {accept / T * 100}')
-    for i in range(samples.shape[0]):
-        samples[[i],:]=np.sum(samples[:i+1,:]/(i+1),axis=0)
+#     for i in range(samples.shape[0]):
+#         samples[[i],:]=np.sum(samples[:i+1,:]/(i+1),axis=0)
     # a = np.sum(samples[:2, :] / (0 + 2), axis=0)
-    plt.imshow(samples.mean(axis=0).reshape(16, 16),vmin=0,vmax=1)
+    plt.imshow((sigama_t/T).reshape(16, 16),vmin=0,vmax=1)
     plt.colorbar()
     plt.show()
     return samples
