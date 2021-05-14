@@ -32,6 +32,8 @@ def MCMC(T, z, y, theta, A,model,step_size):
             accept += 1
         else:
             z_sum=z_sum+z
+            x_sum = x_sum + x
+            x_square_sum = x_square_sum + x ** 2
 
     print(f'accept rate: {accept / T * 100}')
     
