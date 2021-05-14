@@ -8,6 +8,12 @@ def pyu(y, u, A,theta):
     Phi = (p_yu + p_u) * (-0.5)
     return Phi
 
+def psnr(img1, img2):
+   mse = np.mean( (img1/1.0 - img2/1.0) ** 2 )
+   if mse < 1.0e-10:
+      return 100
+   PIXEL_MAX = 1
+   return 20 * math.log10(PIXEL_MAX / math.sqrt(mse))
 
 def prior_cov(height, width, gamma, d):
     """

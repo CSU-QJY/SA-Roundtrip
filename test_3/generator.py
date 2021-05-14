@@ -8,13 +8,7 @@ def GANmoduel(z,model):
     tf.keras.backend.clear_session()
     x_fake = model(tf.constant(z,shape=(z.shape[0],1,1,128),dtype=tf.float64))
     x = np.array(x_fake)
-    names=locals()
-    sc=[]
-    for i in range(z.shape[0]):
-        names['x'+str(i+1)]=x[i,:,:,0]
-        sc.append(names['x'+str(i+1)])
-    sc=np.array(sc)
-    return sc.squeeze()
+    return x.squeeze()
     # x1,x2 = x[0, :, :, 0],x[1,:,:,0]
     # img = im.immerge(x_fake, n_rows=10).squeeze()
     # plt.imshow(x)
