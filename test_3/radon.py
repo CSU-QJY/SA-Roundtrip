@@ -61,7 +61,7 @@ def mexFunction(nt, nx, ny):
         for row in range(2 * nt):
             R[int(irs[0, col * 2 * nt + row]), col] = weight[0, col * 2 * nt + row]
 
-    return R, irs, jcs
+    return np.flipud(R)
 # y=Au+E A为拉东变换矩阵，y为变换图像，u为原图像，E为噪声，已知y,A求u
 # nb = A.shape[0]//64
 # y_2d=Au.reshape(nb,64,order="F")
