@@ -3,11 +3,11 @@ import matplotlib.pyplot as plt
 from tensorflow import keras
 from skimage.transform import radon, rescale, iradon
 import cv2
-from radon import mexFunction
+from myradon import mexFunction
 from util import psnr
 for i in range(10):
     image_name = str(i) + '.jpg'
-    z_true = cv2.imread('mnist/' + image_name, cv2.IMREAD_GRAYSCALE)
+    z_true = cv2.imread('mnist/' + image_name, cv2.IMREAD_GRAYSCALE)/255
     image = rescale(z_true, scale=1, mode='reflect', multichannel=False)
     height, width = 32, 32
     theta = np.linspace(0., 180., 30, endpoint=False)

@@ -1,7 +1,6 @@
 import math
 import numpy as np
 
-
 def pyu(y, u, A,theta):
     p_yu = (y - A @ u).T @ (y - A @ u)/(theta**2)
     p_u = u.T @ u

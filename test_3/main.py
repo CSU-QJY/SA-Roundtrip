@@ -1,18 +1,20 @@
 import numpy as np
-import radon
 import cv2
 from MCMC import MCMC
 import matplotlib.pyplot as plt
 from generator import GANmoduel
-from tensorflow import keras
 from util import psnr
+from tensorflow import keras
+import myradon
+
 
 height, width = 32, 32
 lenth = height * width
 angleNum = 30
+A= myradon.mexFunction(angleNum, height, width)
+# A = np.eye(1024)
 model = keras.models.load_model('model.h5', compile=False)
-A= radon.mexFunction(angleNum, height, width)
-for i in range(3,10):
+for i in range(10):
     image_name = str(i) + '.jpg'
     z_true = cv2.imread('mnist/' + image_name, cv2.IMREAD_GRAYSCALE) / 255
     # z_true = np.random.randn(128,1).reshape(1,-1)
@@ -30,6 +32,7 @@ for i in range(3,10):
     z_mean, x_var, accept = MCMC(T, z, y, theta, A, model, step_size=0.01)
     x_mean = GANmoduel(z_mean, model)
     psn = psnr(x_true, x_mean)
+    # y_without_noise = np.transpose(y_without_noise.reshape(height, width))
     y_without_noise=np.transpose(y_without_noise.reshape(angleNum, A.shape[0] // angleNum))
     dx, dy = 0.5 * 180.0 / max(x_true.shape), 0.5 / y_without_noise.shape[1]
     fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(8, 8))
@@ -44,5 +47,12 @@ for i in range(3,10):
                extent=(-dx, 180.0 + dx, -dy, y_without_noise.shape[1] + dy),
                aspect='auto', cmap='gray')
     plt.suptitle('PSNR=' + str(psn) + '\naccept=' + str(accept))
-    plt.savefig('./MCMC_output/' + str(i) + '.jpg')
+    plt.savefig('./MCMC_output/' + image_name)
     plt.show()
+
+
+
+
+
+
+

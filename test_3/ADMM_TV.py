@@ -6,7 +6,7 @@ import cvxpy as cp
 import numpy as np
 import time
 import cv2, os
-import radon
+import myradon
 from multiprocessing import Pool
 
 
@@ -50,7 +50,7 @@ plt.colorbar()
 plt.title(f"{height, width}")
 signal_noise_ratio = 0.1
 
-A = radon.mexFunction(angleNum, width, height)
+A = myradon.mexFunction(angleNum, width, height)
 y_clear = A @ image.flatten(order='F')
 y_clear_2d = y_clear.reshape(-1, angleNum, order='F')
 

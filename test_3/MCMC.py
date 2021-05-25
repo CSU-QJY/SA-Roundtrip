@@ -17,22 +17,18 @@ def MCMC(T, z, y, theta, A, model, step_size):
             print(t)
         t = t + 1
         start = time.time()
-        z_star = (1-step_size**2)**0.5*z + step_size * np.random.randn(*z.shape)  # w~N(0,I)
+        z_star = (1 - step_size ** 2) ** 0.5 * z + step_size * np.random.randn(*z.shape)  # w~N(0,I)
         z_rows_tack = np.row_stack((z_star, z))
         x_star, x = GANmoduel(z_rows_tack, model)
         x_star, x = x_star.reshape(-1, 1), x.reshape(-1, 1)
         alpha = min(1, np.exp((util.pyu(y, x_star, A, theta)
                                - util.pyu(y, x, A, theta))[0][0]))
-
         u = random.uniform(0, 1)
 
         if u <= alpha:
             z = z_star
-            z_sum = z_sum + z_star
-            x_sum = x_sum + x_star
-            x_square_sum = x_square_sum + x_star ** 2
             accept += 1
-        else:
+        if t > T / 2:
             z_sum = z_sum + z
             x_sum = x_sum + x
             x_square_sum = x_square_sum + x ** 2
@@ -43,7 +39,7 @@ def MCMC(T, z, y, theta, A, model, step_size):
     # plt.imshow((z_sum/T).reshape(32, 32),vmin=-1,vmax=1)
     # plt.colorbar()
     # plt.show()
-    return z_sum / T, x_square_sum / T - (x_sum / T) ** 2, accept / T * 100
+    return z_sum*2 / T, x_square_sum*2 / T - (x_sum*2 / T) ** 2, accept / T * 100
 # num_bins = 100
 # ax1 = plt.subplot(2,1,1)
 # ax2 = plt.subplot(2,1,2)
