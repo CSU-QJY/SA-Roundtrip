@@ -5,6 +5,8 @@ from generator import GANmoduel
 import time
 
 
+
+
 def MCMC(T, z, y, theta, A, model, step_size):
     t = 0
     accept = 0
@@ -28,7 +30,7 @@ def MCMC(T, z, y, theta, A, model, step_size):
         if u <= alpha:
             z = z_star
             accept += 1
-        if t > T / 2:
+        if t > T*3 / 4:
             z_sum = z_sum + z
             x_sum = x_sum + x
             x_square_sum = x_square_sum + x ** 2

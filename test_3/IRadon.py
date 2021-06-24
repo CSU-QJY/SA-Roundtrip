@@ -9,7 +9,7 @@ for i in range(10):
     image_name = str(i) + '.jpg'
     z_true = cv2.imread('mnist/' + image_name, cv2.IMREAD_GRAYSCALE)/255
     image = rescale(z_true, scale=1, mode='reflect', multichannel=False)
-    height, width = 32, 32
+    height, width = 28, 28
     theta = np.linspace(0., 180., 30, endpoint=False)
     sinogram, R = radon(image, theta=theta, circle=True)
     dx, dy = 0.5 * 180.0 / max(image.shape), 0.5 / sinogram.shape[0]
