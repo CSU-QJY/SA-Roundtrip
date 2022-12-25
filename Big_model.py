@@ -129,7 +129,8 @@ weight_init = tf.initializers.TruncatedNormal(stddev=0.02)
 def Discriminator(input_dim=120, name='dx_net', nb_layers=4, nb_units=512):
     """x->input_shape,nb_layers->n_downsamplings,nb_units->dim"""
     inputs = Input(shape=input_dim)
-    fc = Dense(nb_units, kernel_initializer=weight_init)(inputs)
+    fc = Flatten()(inputs)
+    fc = Dense(nb_units, kernel_initializer=weight_init)(fc)
     fc = resblock_dense(fc, nb_units, weight_init)
     for _ in range(nb_layers):
         fc = resblock_dense(fc, nb_units, weight_init)
