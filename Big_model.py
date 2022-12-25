@@ -173,8 +173,8 @@ def Generator_img(input_dim=(1, 1, 128), name='G', nb_layers=2, nb_units=1024):
     for n in range(nb_layers):
         nb_units //= 2
         h = resblock_up(inputs=h, channels=nb_units, weight_init=weight_init, use_bias=False)
-        # if h.shape[1]     == 16:
-        #     h = google_attention(h, nb_units)
+        if h.shape[1]     == 16:
+            h = google_attention(h, nb_units)
     h = FilterResponseNormalization()(h)
     h = TLU()(h)
     model_output = Conv2DTranspose(1, kernel_size=7, strides=1, padding='same', activation='tanh',
